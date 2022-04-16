@@ -1,6 +1,7 @@
 package builder;
 
 import model.entity.Cliente;
+import model.entity.Fisico;
 
 public class ClienteBuilder {
 	
@@ -18,7 +19,7 @@ public class ClienteBuilder {
 	}
 	
 	public Cliente build() {
-		Cliente cliente = new Cliente();
+		Fisico cliente = new Fisico();
 		cliente.setNome(nome);
 		return cliente;
 	}
