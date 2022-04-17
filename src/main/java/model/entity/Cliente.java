@@ -31,6 +31,8 @@ public abstract class Cliente implements Serializable {
 
 	@Embedded
 	private Endereco endereco;
+	
+	
 
 	public Cliente() {
 	}

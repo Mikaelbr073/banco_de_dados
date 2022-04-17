@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -25,13 +26,14 @@ public class Carteira implements Serializable {
 	@Column(name = "ID_CARTEIRA")
 	private long id;
 
-	@Column(name = "SALDO", nullable = false)
+	@Column(name = "SALDO", nullable = false, columnDefinition = "DOUBLE PRECISION")
 	private Double saldo = 0.0;
 
-	@Column(name = "PONTOS", nullable = false)
+	@Column(name = "PONTOS", nullable = false, columnDefinition = "INTEGER")
 	private int pontos = 0;
 
 	@OneToOne
+	@JoinColumn(name = "ID_CLIENTE", referencedColumnName = "ID_CLIENTE" )
 	private Cliente cliente;
 
 	public Carteira() {
