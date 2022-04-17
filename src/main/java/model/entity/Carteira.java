@@ -10,6 +10,10 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+/**
+ * @author JJunio
+ *
+ */
 @Entity
 @Table(name = "CARTEIRA")
 public class Carteira implements Serializable {

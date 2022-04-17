@@ -9,6 +9,9 @@
 		
 		<class>model.entity.Cliente</class>
 		<class>model.entity.Carteira</class>
+		<class>model.entity.Fisico</class>
+		<class>model.entity.Juridico</class>
+		<class>model.entity.Dependente</class>
 		
 		<properties>
 		

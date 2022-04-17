@@ -3,18 +3,22 @@ package model.entity;
 import java.io.Serializable;
 
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "TIPO")
 @Table(name = "CLIENTE")
-public class Cliente implements Serializable {
+public abstract class Cliente implements Serializable {
 
-	private static final long serialVersionUID = 3387642521978418140L;
+	private static final long serialVersionUID = 1103578196787918372L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,24 +36,6 @@ public class Cliente implements Serializable {
 
 	@Column(name = "END_CIDADE", length = 255)
 	private String endCidade;
-
-	@Column(name = "RG", length = 50)
-	private String rg;
-
-	@Column(name = "CPF", length = 11)
-	private String cpf;
-
-	@Column(name = "CNPJ", length = 50)
-	private String cnpj;
-
-	@Column(name = "INSCRICAO_ESTADUAL", length = 50)
-	private String inscricaoEstadual;
-
-	@Column(name = "TIPO", length = 20)
-	private String tipo;
-
-	@OneToOne
-	private Carteira carteira;
 
 	public Cliente() {
 	}
@@ -92,54 +78,6 @@ public class Cliente implements Serializable {
 
 	public void setEndCidade(String endCidade) {
 		this.endCidade = endCidade;
-	}
-
-	public String getRg() {
-		return rg;
-	}
-
-	public void setRg(String rg) {
-		this.rg = rg;
-	}
-
-	public String getCpf() {
-		return cpf;
-	}
-
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
-	}
-
-	public String getCnpj() {
-		return cnpj;
-	}
-
-	public void setCnpj(String cnpj) {
-		this.cnpj = cnpj;
-	}
-
-	public String getInscricaoEstadual() {
-		return inscricaoEstadual;
-	}
-
-	public void setInscricaoEstadual(String inscricaoEstadual) {
-		this.inscricaoEstadual = inscricaoEstadual;
-	}
-
-	public String getTipo() {
-		return tipo;
-	}
-
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
-	}
-
-	public Carteira getCarteira() {
-		return carteira;
-	}
-
-	public void setCarteira(Carteira carteira) {
-		this.carteira = carteira;
 	}
 
 	@Override
