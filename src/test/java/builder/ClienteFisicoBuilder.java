@@ -3,17 +3,17 @@ package builder;
 import model.entity.Cliente;
 import model.entity.Fisico;
 
-public class ClienteBuilder {
+public class ClienteFisicoBuilder {
 	
 	private String nome;
 	
-	private ClienteBuilder() {}
+	private ClienteFisicoBuilder() {}
 	
-	public static ClienteBuilder umCliente() {
-		return new ClienteBuilder();
+	public static ClienteFisicoBuilder umCliente() {
+		return new ClienteFisicoBuilder();
 	}
 	
-	public ClienteBuilder comNome(String nome) {
+	public ClienteFisicoBuilder comNome(String nome) {
 		this.nome = nome;
 		return this;
 	}
