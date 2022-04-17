@@ -2,44 +2,44 @@ package service;
 
 import java.util.List;
 
-import model.entity.Pedido;
+import model.entity.Produto;
 
 /**
  * @author JJunio
  *
  */
-public class PedidoService implements Service<Pedido>{
+public class ProdutoService implements Service<Produto>{
 
 	@Override
-	public Pedido cadastrar(Pedido t) {
+	public Produto cadastrar(Produto t) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void remove(Pedido t) {
+	public void remove(Produto t) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public Pedido atualizar(Pedido t) {
+	public Produto atualizar(Produto t) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<Pedido> listarTodos() {
+	public List<Produto> listarTodos() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Pedido recuperarPorId(long id) {
+	public Produto recuperarPorId(long id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	
 
 }
