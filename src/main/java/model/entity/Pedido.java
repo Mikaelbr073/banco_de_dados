@@ -11,6 +11,7 @@ import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -34,7 +35,7 @@ public class Pedido implements Serializable {
 	@Column(name = "ID_PEDIDO")
 	private Long id;
 	
-	@Column(name = "VALOR_TOTAL", columnDefinition = "DOUBLE")
+	@Column(name = "VALOR_TOTAL", columnDefinition = "DOUBLE PRECISION")
 	private double valorTotal;
 	
 	@Column(name = "DATA", nullable = false)
@@ -42,8 +43,8 @@ public class Pedido implements Serializable {
 	@Embedded
 	private Endereco endereco;
 	 
-	@JoinColumn(name = "ID_CLIENTE", referencedColumnName = "ID_CLIENTE", columnDefinition = "INTEGER")
-	@ManyToOne
+	@JoinColumn(name = "PEDIDO_ID_CLIENTE", referencedColumnName = "ID_CLIENTE", columnDefinition = "INTEGER")
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	private Cliente cliente;
 	
 	
