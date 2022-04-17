@@ -8,8 +8,18 @@ import model.entity.Pedido;
  */
 public class PedidoService {
 	
-	public boolean salvarPedido(Pedido pedido) {
+	public boolean realizarPedido(Pedido pedido) {
 		return false;
 	}
+	
+	private boolean confirmarPedido() {
+		return false;
+	}
+	
+	private boolean verificarSaldoCarteira() {
+		return false;
+	}
+	
+	
 
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
@@ -39,7 +40,7 @@ public abstract class Cliente implements Serializable {
 	@Embedded
 	private Endereco endereco;
 
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	private List<Dependente> dependentes = new ArrayList<>();
 
 	@ElementCollection
