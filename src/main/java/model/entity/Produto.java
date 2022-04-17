@@ -95,4 +95,15 @@ public class Produto implements Serializable {
 		return serialVersionUID;
 	}
 
+	public Collection<Fornecedor> getFornecedorCollection() {
+		return fornecedorCollection;
+	}
+
+	public void setFornecedorCollection(Collection<Fornecedor> fornecedorCollection) {
+		this.fornecedorCollection = fornecedorCollection;
+	}
+	
+	
+	
+
 }

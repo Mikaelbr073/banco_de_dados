@@ -39,15 +39,16 @@ public class Pedido implements Serializable {
 	
 	@Column(name = "DATA", nullable = false)
 	private LocalDate data;
-	
 	@Embedded
 	private Endereco endereco;
 	 
-	@JoinColumn(name = "ID_CLIENTE", referencedColumnName = "ID_CLIENTE")
+	@JoinColumn(name = "ID_CLIENTE", referencedColumnName = "ID_CLIENTE", columnDefinition = "INTEGER")
 	@ManyToOne
 	private Cliente cliente;
 	
+	
 	public Pedido() {}
+
 
 	public Pedido(Long id, double valorTotal, LocalDate data, Endereco endereco, Cliente cliente) {
 		super();
@@ -58,49 +59,60 @@ public class Pedido implements Serializable {
 		this.cliente = cliente;
 	}
 
+
 	public Long getId() {
 		return id;
 	}
+
 
 	public void setId(Long id) {
 		this.id = id;
 	}
 
+
 	public double getValorTotal() {
 		return valorTotal;
 	}
+
 
 	public void setValorTotal(double valorTotal) {
 		this.valorTotal = valorTotal;
 	}
 
+
 	public LocalDate getData() {
 		return data;
 	}
+
 
 	public void setData(LocalDate data) {
 		this.data = data;
 	}
 
+
 	public Endereco getEndereco() {
 		return endereco;
 	}
+
 
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
 	}
 
+
 	public Cliente getCliente() {
 		return cliente;
 	}
+
 
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
 
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
-	}
+	};
 	
 	
 	

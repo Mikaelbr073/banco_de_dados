@@ -15,6 +15,7 @@
 		<class>model.entity.Produto</class>
 		<class>model.entity.Fornecedor</class>
 		<class>model.entity.Pedido</class>
+		<class>model.entity.PedidoProduto</class>
 		
 		<properties>
 		
