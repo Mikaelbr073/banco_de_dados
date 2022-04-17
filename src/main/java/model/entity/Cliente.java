@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -28,14 +29,8 @@ public abstract class Cliente implements Serializable {
 	@Column(name = "NOME", nullable = false, length = 255)
 	private String nome;
 
-	@Column(name = "END_CEP", length = 8)
-	private String endCep;
-
-	@Column(name = "END_RUA", length = 255)
-	private String endRua;
-
-	@Column(name = "END_CIDADE", length = 255)
-	private String endCidade;
+	@Embedded
+	private Endereco endereco;
 
 	public Cliente() {
 	}
@@ -56,28 +51,12 @@ public abstract class Cliente implements Serializable {
 		this.nome = nome;
 	}
 
-	public String getEndCep() {
-		return endCep;
+	public Endereco getEndereco() {
+		return endereco;
 	}
 
-	public void setEndCep(String endCep) {
-		this.endCep = endCep;
-	}
-
-	public String getEndRua() {
-		return endRua;
-	}
-
-	public void setEndRua(String endRua) {
-		this.endRua = endRua;
-	}
-
-	public String getEndCidade() {
-		return endCidade;
-	}
-
-	public void setEndCidade(String endCidade) {
-		this.endCidade = endCidade;
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
 	}
 
 	@Override

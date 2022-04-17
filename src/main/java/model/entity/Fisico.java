@@ -14,10 +14,10 @@ public class Fisico extends Cliente {
 
 	private static final long serialVersionUID = -6835610410337029141L;
 
-	@Column(name = "RG", length = 50)
+	@Column(name = "RG", columnDefinition = "varchar(50)")
 	private String rg;
 
-	@Column(name = "CPF", length = 11)
+	@Column(name = "CPF", columnDefinition = "CHAR(11)")
 	private String cpf;
 
 	public Fisico() {
