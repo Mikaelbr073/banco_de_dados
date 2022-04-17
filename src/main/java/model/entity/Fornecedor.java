@@ -58,6 +58,18 @@ public class Fornecedor implements Serializable {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+
+	public Collection<Produto> getProdutoCollection() {
+		return produtoCollection;
+	}
+
+	public void setProdutoCollection(Collection<Produto> produtoCollection) {
+		this.produtoCollection = produtoCollection;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 	
 	
 	
