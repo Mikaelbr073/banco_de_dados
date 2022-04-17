@@ -29,27 +29,48 @@ public class ProdutoService implements Service<Produto> {
 	}
 
 	@Override
-	public void remove(Produto t) {
-		// TODO Auto-generated method stub
-
+	public void remove(Produto produto) {
+		manager = EMFactory.getInstance().getEntityManager();
+		dao = new ProdutoDAO(manager);
+		manager.getTransaction().begin();
+		dao.remover(produto);
+		manager.getTransaction().commit();
+		manager.close();
 	}
 
 	@Override
-	public Produto atualizar(Produto t) {
-		// TODO Auto-generated method stub
-		return null;
+	public Produto atualizar(Produto produto) {
+
+		manager = EMFactory.getInstance().getEntityManager();
+		dao = new ProdutoDAO(manager);
+		manager.getTransaction().begin();
+		dao.atualizar(produto);
+		manager.getTransaction().commit();
+		manager.close();
+		return produto;
 	}
 
 	@Override
 	public List<Produto> listarTodos() {
-		// TODO Auto-generated method stub
-		return null;
+		manager = EMFactory.getInstance().getEntityManager();
+		dao = new ProdutoDAO(manager);
+		manager.getTransaction().begin();
+		List<Produto> produtosCadastradado = dao.recuperarTodos();
+		manager.getTransaction().commit();
+		manager.close();
+		return produtosCadastradado;
+
 	}
 
 	@Override
 	public Produto recuperarPorId(long id) {
-		// TODO Auto-generated method stub
-		return null;
+		manager = EMFactory.getInstance().getEntityManager();
+		dao = new ProdutoDAO(manager);
+		manager.getTransaction().begin();
+		Produto produtoRecuperado = dao.recuperarPorId(id);
+		manager.getTransaction().commit();
+		manager.close();
+		return produtoRecuperado;
 	}
 
 }
