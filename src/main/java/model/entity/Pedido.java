@@ -35,7 +35,7 @@ public class Pedido implements Serializable {
 	@Column(name = "ID_PEDIDO")
 	private Long id;
 	
-	@Column(name = "VALOR_TOTAL", columnDefinition = "DOUBLE PRECISION")
+	@Column(name = "VALOR_TOTAL", columnDefinition = "DOUBLE PRECISION", nullable = false)
 	private double valorTotal;
 	
 	@Column(name = "DATA", nullable = false)
