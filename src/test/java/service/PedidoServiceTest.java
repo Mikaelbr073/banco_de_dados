@@ -42,6 +42,7 @@ class PedidoServiceTest {
 		endereco.setEndCep("555555");
 		endereco.setEndCidade("Capoieras");
 		endereco.setEndRua("Av.Cabral");
+		dao.adiciona(cliente);
 		Pedido pedido = PedidoBuilder.umPedido().completo(endereco, LocalDate.now(), cliente, 100.0).build();
 		service.cadastrar(pedido);
 	}
