@@ -16,9 +16,9 @@ import model.entity.Pedido;
  */
 public class PedidoService implements Service<Pedido> {
 
-	EntityManager manager;
-	PedidoDAO daoPedido;
-	CarteiraDAO daoCarteira;
+	private EntityManager manager;
+	private PedidoDAO daoPedido;
+	private CarteiraDAO daoCarteira;
 
 	public PedidoService() {
 
@@ -30,10 +30,13 @@ public class PedidoService implements Service<Pedido> {
 		daoPedido = new PedidoDAO(manager);
 		manager.getTransaction().begin();
 		System.out.println(verificarSaldoCarteira(pedido));
-		daoPedido.adiciona(pedido);
-		manager.getTransaction().commit();
-		manager.close();
-		return pedido;
+		if(verificarSaldoCarteira(pedido)) {
+			daoPedido.adiciona(pedido);
+			manager.getTransaction().commit();
+			manager.close();
+			return pedido;
+		}
+		return null;
 	}
 
 	private boolean verificarSaldoCarteira(Pedido pedido) {
