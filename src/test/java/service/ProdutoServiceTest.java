@@ -6,7 +6,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import dao.ClienteDAO;
 import dao.ProdutoDAO;
 import dao.TestEMFactory;
 import model.entity.Fornecedor;
@@ -31,15 +30,17 @@ class ProdutoServiceTest {
 	}
 
 	@Test
-	void test() {
+	void deveCadastarProduto() {
+		
+		ProdutoService serviceProduto = new ProdutoService();
 		Fornecedor fornecedorApple = new Fornecedor();
 		fornecedorApple.setNome("Apple");
 		Produto produto = new Produto();
 		produto.setNome("Iphone");
 		produto.setDescricao("Muito caro");
 		produto.setValor(12000);
-		dao.adiciona(produto);
-		
+		serviceProduto.cadastrar(produto);
+
 	}
 
 }
