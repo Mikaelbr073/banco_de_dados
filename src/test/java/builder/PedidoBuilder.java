@@ -24,9 +24,10 @@ public class PedidoBuilder {
 		return new PedidoBuilder();
 	}
 	
-	public PedidoBuilder comEnderecoData(Endereco endereco, LocalDate data) {
+	public PedidoBuilder comEnderecoData(Endereco endereco, LocalDate data, Cliente cliente) {
 		this.endereco = endereco;
 		this.data = data;
+		this.cliente = cliente;
 		return this;
 		
 	}
