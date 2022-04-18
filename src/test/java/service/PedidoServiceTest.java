@@ -12,12 +12,14 @@ import org.junit.jupiter.api.Test;
 
 import builder.ClienteFisicoBuilder;
 import builder.PedidoBuilder;
+import builder.ProdutoBuilder;
 import dao.ClienteDAO;
 import dao.PedidoDAO;
 import dao.TestEMFactory;
 import model.entity.Cliente;
 import model.entity.Endereco;
 import model.entity.Pedido;
+import model.entity.Produto;
 
 class PedidoServiceTest {
 
@@ -50,6 +52,8 @@ class PedidoServiceTest {
 		Cliente cliente = ClienteFisicoBuilder.umCliente().comNome("José").build();
 		daoCliente.adiciona(cliente);
 		pedido = PedidoBuilder.umPedido().completo(endereco, data, cliente, 100).build();
+		Produto produto = ProdutoBuilder.umProduto().comNomeValor("Caneta", 323232).build();
+		
 		dao.adiciona(pedido);
 		assertNull(pedido);
 	}
