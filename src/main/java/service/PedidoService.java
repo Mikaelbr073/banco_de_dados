@@ -4,9 +4,10 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
-import dao.ClienteDAO;
+import dao.CarteiraDAO;
 import dao.EMFactory;
 import dao.PedidoDAO;
+import model.entity.Carteira;
 import model.entity.Pedido;
 
 /**
@@ -16,19 +17,31 @@ import model.entity.Pedido;
 public class PedidoService implements Service<Pedido> {
 
 	EntityManager manager;
-	PedidoDAO dao;
+	PedidoDAO daoPedido;
+	CarteiraDAO daoCarteira;
 
 	@Override
 	public Pedido cadastrar(Pedido t) {
 		manager = EMFactory.getInstance().getEntityManager();
-		dao = new PedidoDAO(manager);
+		daoPedido = new PedidoDAO(manager);
 		manager.getTransaction().begin();
-		dao.adiciona(t);
+		daoPedido.adiciona(t);
 		manager.getTransaction().commit();
 		manager.close();
 		return t;
 	}
+	
+	
+	private boolean verificarSaldoCarteira(Pedido pedido) {
+		manager = EMFactory.getInstance().getEntityManager();
+		CarteiraDAO daoCarteira = new CarteiraDAO(manager);
+		double valorPedido = pedido.getValorTotal();
+		Carteira carteiraCliente = procurarPorCliente(pedido.getCliente());
+		return carteiraCliente.getSaldo() >= valorPedido;
+	}
 
+	
+	
 	@Override
 	public void remove(Pedido t) {
 		// TODO Auto-generated method stub
