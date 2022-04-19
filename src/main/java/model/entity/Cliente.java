@@ -19,6 +19,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -47,7 +48,23 @@ public abstract class Cliente implements Serializable {
 	@CollectionTable(name = "email_cliente", foreignKey = @ForeignKey(name = "ID_CLIENTE"))
 	private Set<String> emails;
 
+	@OneToOne(mappedBy = "cliente")
+	private Carteira carteira;
+
+	@ElementCollection
+	@OneToMany(mappedBy = "cliente")
+	private List<Pedido> pedidos = new ArrayList<>();
+
 	public Cliente() {
+	}
+	
+
+	public Carteira getCarteira() {
+		return carteira;
+	}
+
+	public void setCarteira(Carteira carteira) {
+		this.carteira = carteira;
 	}
 
 	public Long getId() {
