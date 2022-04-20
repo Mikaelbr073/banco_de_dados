@@ -5,9 +5,11 @@ package model.entity;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,6 +19,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -46,8 +49,12 @@ public class Pedido implements Serializable {
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	private Cliente cliente;
 
+	@OneToOne
+	private PedidoProduto pedidoProduto;
+
 	@OneToMany
-	private List<PedidoProduto> produtos;
+	@ElementCollection
+	private List<Produto> produtos = new ArrayList<>();
 
 	public Pedido() {
 	}
@@ -103,6 +110,26 @@ public class Pedido implements Serializable {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public PedidoProduto getPedidoProduto() {
+		return pedidoProduto;
+	}
+
+	public void setPedidoProduto(PedidoProduto pedidoProduto) {
+		this.pedidoProduto = pedidoProduto;
+	}
+
+	public List<Produto> getProdutos() {
+		return produtos;
+	}
+
+	public void setProdutos(List<Produto> produtos) {
+		this.produtos = produtos;
 	};
+
+	public void adicionaProdutoLista(Produto produto) {
+		this.produtos.add(produto);
+	}
 
 }

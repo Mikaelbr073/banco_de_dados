@@ -1,5 +1,6 @@
 package service;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.time.LocalDate;
@@ -15,23 +16,27 @@ import builder.PedidoBuilder;
 import builder.ProdutoBuilder;
 import dao.ClienteDAO;
 import dao.PedidoDAO;
+import dao.ProdutoDAO;
 import dao.TestEMFactory;
 import model.entity.Cliente;
 import model.entity.Endereco;
 import model.entity.Pedido;
+import model.entity.PedidoProduto;
 import model.entity.Produto;
 
 class PedidoServiceTest {
 
 	EntityManager manager;
-	PedidoDAO dao;
+	PedidoDAO daoPedido;
 	ClienteDAO daoCliente;
+	ProdutoDAO daoProduto;
 
 	@BeforeEach
 	public void before() {
 		manager = TestEMFactory.getInstance().getEntityManager();
-		dao = new PedidoDAO(manager);
+		daoPedido = new PedidoDAO(manager);
 		daoCliente = new ClienteDAO(manager);
+		daoProduto = new ProdutoDAO(manager);
 		manager.getTransaction().begin();
 	}
 
@@ -51,11 +56,13 @@ class PedidoServiceTest {
 		endereco.setEndRua("Av.Cabral");
 		Cliente cliente = ClienteFisicoBuilder.umCliente().comNome("José").build();
 		daoCliente.adiciona(cliente);
-		pedido = PedidoBuilder.umPedido().completo(endereco, data, cliente, 100).build();
+		System.out.println(cliente.getId() + "--------------id CLIENTE");
 		Produto produto = ProdutoBuilder.umProduto().comNomeValor("Caneta", 323232).build();
-		
-		dao.adiciona(pedido);
-		assertNull(pedido);
+		daoProduto.adiciona(produto);
+		pedido = PedidoBuilder.umPedido().completo(endereco, data, cliente, 100).build();
+		pedido.setPedidoProduto(new PedidoProduto(200, 2));
+		daoPedido.adiciona(pedido);
+		assertNotNull((pedido.getId()));
 	}
 
 }
