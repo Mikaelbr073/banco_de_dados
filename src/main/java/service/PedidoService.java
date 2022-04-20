@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
-import dao.CarteiraDAO;
 import dao.EMFactory;
 import dao.PedidoDAO;
 import model.entity.Carteira;
@@ -18,50 +17,72 @@ public class PedidoService implements Service<Pedido> {
 
 	private EntityManager manager;
 	private PedidoDAO daoPedido;
-	private CarteiraDAO daoCarteira;
 
 	public PedidoService() {
 		daoPedido = new PedidoDAO(manager);
-		daoCarteira = new CarteiraDAO(manager);
 	}
 
 	@Override
 	public Pedido cadastrar(Pedido pedido) {
-		manager = EMFactory.getInstance().getEntityManager();
-		manager.getTransaction().begin();
-		System.out.println(verificarSaldoCarteira(pedido));
-		if (verificarSaldoCarteira(pedido)) {
+		if(pedidoValido(pedido)) {
 			daoPedido.adiciona(pedido);
 			manager.getTransaction().commit();
 			manager.close();
 			return pedido;
 		}
+		manager.getTransaction().rollback();
+		manager.close();
 		return null;
+	}
+	
+	private boolean pedidoValido(Pedido pedido){
+		manager = EMFactory.getInstance().getEntityManager();
+		manager.getTransaction().begin();
+		if (pedido.getCliente().getId() != null
+				&& !pedido.getProdutos().isEmpty()) {
+			if (verificarSaldoCarteira(pedido)) {
+				int pontosObtidos = calculaPontosPedido(pedido.getValorTotal());
+				if(atualizaPontosCarteira(manager, pontosObtidos, pedido)
+						&& atualizaSaldoCarteira(manager, pedido)) {
+					return true;
+				}
+				return false;
+			} else {
+				return false;
+			}
+		}
+		return false;
 	}
 
 	private boolean verificarSaldoCarteira(Pedido pedido) {
 		manager = EMFactory.getInstance().getEntityManager();
 		double valorPedido = pedido.getValorTotal();
 		Carteira carteiraCliente = pedido.getCliente().getCarteira();
-		System.out.println(valorPedido);
-		System.out.println(carteiraCliente.getSaldo());
 		return carteiraCliente.getSaldo() >= valorPedido;
 	}
 
 	private int calculaPontosPedido(double valorTotal) {
 		int pontos = (int) (valorTotal / 10);
-		System.out.println("Calculando pontos");
 		return pontos;
 	}
 
-	private boolean atualizaSaldoCarteira() {
-		System.out.println("Atualizando Saldo");
+	private boolean atualizaSaldoCarteira(EntityManager manager, Pedido pedido) {
+		try {
+			pedido.getCliente().getCarteira().atualizaSaldoCarteira(pedido.getValorTotal());
+		} catch (Exception e) {
+
+		}
 		return false;
 	}
 
-	private boolean atualizaPontosCarteira() {
-		System.out.println("Atualizando Pontos");
-		return false;
+	private boolean atualizaPontosCarteira(EntityManager manager, int pontos, Pedido pedido) {
+		try {
+			pedido.getCliente().getCarteira().atualizaPontosCarteira(pontos);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+
 	}
 
 	@Override
