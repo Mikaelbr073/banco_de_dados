@@ -33,7 +33,7 @@ public class Carteira implements Serializable {
 	private int pontos = 0;
 
 	@OneToOne
-	@JoinColumn(name = "ID_CLIENTE", referencedColumnName = "ID_CLIENTE" )
+	@JoinColumn(name = "ID_CLIENTE", referencedColumnName = "ID_CLIENTE")
 	private Cliente cliente;
 
 	public Carteira() {
@@ -69,6 +69,15 @@ public class Carteira implements Serializable {
 
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
+	}
+
+	public void atualizaPontosCarteira(int pontos) {
+		this.pontos += pontos;
+	}
+
+	public void atualizaSaldoCarteira(double valorPedido) {
+		this.saldo -= valorPedido;
+
 	}
 
 }

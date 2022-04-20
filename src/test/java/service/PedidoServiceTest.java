@@ -1,7 +1,6 @@
 package service;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.time.LocalDate;
 
@@ -42,12 +41,13 @@ class PedidoServiceTest {
 
 	@AfterEach
 	public void after() {
-		manager.getTransaction().commit();
+		manager.getTransaction().rollback();
 		manager.close();
 	}
 
 	@Test
 	void naoDeveSalvarPedidoSemSaldoNaCarteira() {
+		PedidoService servicePedido = new PedidoService();
 		Pedido pedido = new Pedido();
 		LocalDate data = LocalDate.now();
 		Endereco endereco = new Endereco();
@@ -61,8 +61,7 @@ class PedidoServiceTest {
 		daoProduto.adiciona(produto);
 		pedido = PedidoBuilder.umPedido().completo(endereco, data, cliente, 100).build();
 		pedido.setPedidoProduto(new PedidoProduto(200, 2));
-		daoPedido.adiciona(pedido);
-		assertNotNull((pedido.getId()));
+		assertNotNull(servicePedido.cadastrar(pedido));
 	}
 
 }

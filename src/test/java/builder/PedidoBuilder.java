@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import model.entity.Cliente;
 import model.entity.Endereco;
 import model.entity.Pedido;
-import model.entity.Produto;
 
 /**
  * @author Mikaelbr073
