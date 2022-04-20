@@ -30,8 +30,7 @@ public class PedidoProduto implements Serializable {
 	public PedidoProduto() {}
 
 
-	public PedidoProduto(PedidoProdutoId id, double valorUnidade, int qtd) {
-		this.id = id;
+	public PedidoProduto(double valorUnidade, int qtd) {
 		this.valorUnidade = valorUnidade;
 		this.qtd = qtd;
 	}

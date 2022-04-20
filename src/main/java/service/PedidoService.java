@@ -21,16 +21,16 @@ public class PedidoService implements Service<Pedido> {
 	private CarteiraDAO daoCarteira;
 
 	public PedidoService() {
-
+		daoPedido = new PedidoDAO(manager);
+		daoCarteira = new CarteiraDAO(manager);
 	}
 
 	@Override
 	public Pedido cadastrar(Pedido pedido) {
 		manager = EMFactory.getInstance().getEntityManager();
-		daoPedido = new PedidoDAO(manager);
 		manager.getTransaction().begin();
 		System.out.println(verificarSaldoCarteira(pedido));
-		if(verificarSaldoCarteira(pedido)) {
+		if (verificarSaldoCarteira(pedido)) {
 			daoPedido.adiciona(pedido);
 			manager.getTransaction().commit();
 			manager.close();
@@ -41,9 +41,8 @@ public class PedidoService implements Service<Pedido> {
 
 	private boolean verificarSaldoCarteira(Pedido pedido) {
 		manager = EMFactory.getInstance().getEntityManager();
-		CarteiraDAO daoCarteira = new CarteiraDAO(manager);
 		double valorPedido = pedido.getValorTotal();
-		Carteira carteiraCliente = daoCarteira.procurarPorCliente(pedido.getCliente());
+		Carteira carteiraCliente = pedido.getCliente().getCarteira();
 		System.out.println(valorPedido);
 		System.out.println(carteiraCliente.getSaldo());
 		return carteiraCliente.getSaldo() >= valorPedido;
@@ -51,15 +50,18 @@ public class PedidoService implements Service<Pedido> {
 
 	private int calculaPontosPedido(double valorTotal) {
 		int pontos = (int) (valorTotal / 10);
+		System.out.println("Calculando pontos");
 		return pontos;
 	}
 
-	private void atualizaSaldoCarteira() {
-
+	private boolean atualizaSaldoCarteira() {
+		System.out.println("Atualizando Saldo");
+		return false;
 	}
 
-	private void atualizaPontosCarteira() {
-
+	private boolean atualizaPontosCarteira() {
+		System.out.println("Atualizando Pontos");
+		return false;
 	}
 
 	@Override
