@@ -4,8 +4,10 @@
 package model.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,7 +31,7 @@ public class Produto implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID_PRODUTO",  columnDefinition = "INTEGER")
+	@Column(name = "ID_PRODUTO", columnDefinition = "INTEGER")
 	private Long id;
 
 	@Column(name = "NOME")
@@ -44,19 +46,20 @@ public class Produto implements Serializable {
 	@JoinTable(name = "PRODUTO_FORNECEDOR", joinColumns = {
 			@JoinColumn(name = "PRODUTO_ID", referencedColumnName = "ID_PRODUTO") }, inverseJoinColumns = {
 					@JoinColumn(name = "FORNECEDOR_ID", referencedColumnName = "ID_FORNECEDOR") })
-	@ManyToMany
-	private Collection<Fornecedor> fornecedorCollection; 
-	
+	@ManyToMany(cascade = CascadeType.ALL)
+	private Collection<Fornecedor> fornecedorCollection = new ArrayList<>();
 
 	public Produto() {
 	}
 
-	public Produto(Long id, String nome, String descricao, double valor) {
-		super();
-		this.id = id;
+	public Produto(String nome, String descricao, double valor) {
 		this.nome = nome;
 		this.descricao = descricao;
 		this.valor = valor;
+	}
+
+	public void adicionaFornecedor(Fornecedor novoFornecedor) {
+		this.fornecedorCollection.add(novoFornecedor);
 	}
 
 	public Long getId() {
@@ -102,8 +105,5 @@ public class Produto implements Serializable {
 	public void setFornecedorCollection(Collection<Fornecedor> fornecedorCollection) {
 		this.fornecedorCollection = fornecedorCollection;
 	}
-	
-	
-	
 
 }
