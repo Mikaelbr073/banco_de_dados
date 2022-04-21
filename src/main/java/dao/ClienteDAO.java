@@ -7,10 +7,10 @@ import javax.persistence.EntityManager;
 import model.entity.Cliente;
 
 public class ClienteDAO {
-	
+
 	private GenericDAO<Cliente> dao;
-	
-	public ClienteDAO(EntityManager manager){
+
+	public ClienteDAO(EntityManager manager) {
 		dao = new GenericDAO<Cliente>(manager, Cliente.class);
 	}
 
@@ -18,7 +18,7 @@ public class ClienteDAO {
 		return dao.adiciona(t);
 	}
 
-	public void remove(Cliente t) {
+	public void removeCliente(Cliente t) {
 		dao.remove(t);
 	}
 

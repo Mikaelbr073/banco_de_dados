@@ -18,11 +18,11 @@ public class ProdutoDAO {
 		dao = new GenericDAO<Produto>(manager, Produto.class);
 	}
 
-	public Produto adiciona(Produto p) {
-		return dao.adiciona(p);
+	public Produto adiciona(Produto produto) {
+		return dao.adiciona(produto);
 	}
 
-	public void remover(Produto produto) {
+	public void removeProduto(Produto produto) {
 		dao.remove(produto);
 	}
 
