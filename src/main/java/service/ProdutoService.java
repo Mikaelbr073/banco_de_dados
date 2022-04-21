@@ -18,13 +18,13 @@ public class ProdutoService implements Service<Produto> {
 	ProdutoDAO dao;
 
 	public ProdutoService() {
-		manager = EMFactory.getInstance().getEntityManager();
 		dao = new ProdutoDAO(manager);
 	}
 
 	@Override
 	public Produto cadastrar(Produto produto) {
-
+		manager = EMFactory.getInstance().getEntityManager();
+		dao = new ProdutoDAO(manager);
 		if (produtoValido(produto)) {
 			manager.getTransaction().begin();
 			dao.adiciona(produto);
@@ -48,6 +48,7 @@ public class ProdutoService implements Service<Produto> {
 
 	@Override
 	public void remove(Produto produto) {
+		manager = EMFactory.getInstance().getEntityManager();
 		dao = new ProdutoDAO(manager);
 		manager.getTransaction().begin();
 		dao.removeProduto(produto);
@@ -57,6 +58,7 @@ public class ProdutoService implements Service<Produto> {
 
 	@Override
 	public Produto atualizar(Produto produto) {
+		manager = EMFactory.getInstance().getEntityManager();
 		dao = new ProdutoDAO(manager);
 		manager.getTransaction().begin();
 		dao.atualizar(produto);
@@ -67,6 +69,7 @@ public class ProdutoService implements Service<Produto> {
 
 	@Override
 	public List<Produto> listarTodos() {
+		manager = EMFactory.getInstance().getEntityManager();
 		dao = new ProdutoDAO(manager);
 		manager.getTransaction().begin();
 		List<Produto> produtosCadastradado = dao.recuperarTodos();
@@ -78,11 +81,9 @@ public class ProdutoService implements Service<Produto> {
 
 	@Override
 	public Produto recuperarPorId(long id) {
+		manager = EMFactory.getInstance().getEntityManager();
 		dao = new ProdutoDAO(manager);
-		manager.getTransaction().begin();
 		Produto produtoRecuperado = dao.recuperarPorId(id);
-		manager.getTransaction().commit();
-		manager.close();
 		return produtoRecuperado;
 	}
 

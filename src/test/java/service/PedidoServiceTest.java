@@ -1,27 +1,23 @@
 package service;
 
-import javax.persistence.EntityManager;
-
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import builder.ClienteFisicoBuilder;
 import builder.ProdutoBuilder;
-import dao.ClienteDAO;
-import dao.TestEMFactory;
 import model.entity.Cliente;
 import model.entity.Fornecedor;
 import model.entity.Produto;
 
 class PedidoServiceTest {
 
-	private EntityManager manager;
 	private Produto produtoTest;
 	private Cliente clienteTest;
-	private ClienteDAO daoCliente;
 	private ProdutoService serviceProduto;
 	private Long idProduto;
 	private Long idCliente;
+	ClienteService serviceCliente;
 
 	@BeforeEach
 	public void before() {
@@ -33,20 +29,19 @@ class PedidoServiceTest {
 		Produto novoProduto = ProdutoBuilder.umProduto().comNomeValor("PS2", 2000).build();
 		novoProduto.adicionaFornecedor(fornecedor);
 		produtoTest = serviceProduto.cadastrar(novoProduto);
-		cadastrarClienteTest();
-		System.out.println(produtoTest);
+
+		serviceCliente = new ClienteService();
+		clienteTest = ClienteFisicoBuilder.umCliente().comNome("Yudi").build();
+		serviceCliente.cadastrar(clienteTest);
+		idProduto = produtoTest.getId();
+		idCliente = clienteTest.getId();
+
 	}
 
-	// @AfterEach
+	@AfterEach
 	public void after() {
-		manager = TestEMFactory.getInstance().getEntityManager();
-		daoCliente = new ClienteDAO(manager);
-		manager.getTransaction().begin();
-		Cliente clienteBD = daoCliente.buscaPorId(idCliente);
-		daoCliente.removeCliente(clienteBD);
+		serviceCliente.remove(serviceCliente.recuperarPorId(idCliente));
 		serviceProduto.remove(serviceProduto.recuperarPorId(idProduto));
-		manager.getTransaction().commit();
-		manager.close();
 	}
 
 	@Test
@@ -61,13 +56,6 @@ class PedidoServiceTest {
 //		pedido = PedidoBuilder.umPedido().completo(endereco, data, clienteTest, 100).build();
 //		pedido.adicionaProdutoLista(produtoTest);
 //		assertNotNull(servicePedido.cadastrar(pedido));
-	}
-
-	private void cadastrarClienteTest() {
-		ClienteService serviceCliente = new ClienteService();
-		clienteTest = ClienteFisicoBuilder.umCliente().comNome("Yudi").build();
-		serviceCliente.cadastrar(clienteTest);
-		System.out.println(clienteTest.getId());
 	}
 
 }
