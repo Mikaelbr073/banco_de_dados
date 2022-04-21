@@ -19,19 +19,21 @@ public class ProdutoService implements Service<Produto> {
 
 	public ProdutoService() {
 		manager = EMFactory.getInstance().getEntityManager();
+		dao = new ProdutoDAO(manager);
 	}
 
 	@Override
 	public Produto cadastrar(Produto produto) {
 
 		if (produtoValido(produto)) {
-			dao = new ProdutoDAO(manager);
 			manager.getTransaction().begin();
 			dao.adiciona(produto);
 			manager.getTransaction().commit();
 			manager.close();
 			return produto;
 		}
+		manager.getTransaction().rollback();
+		manager.close();
 		return null;
 
 	}
