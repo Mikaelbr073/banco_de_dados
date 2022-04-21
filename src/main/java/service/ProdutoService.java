@@ -17,20 +17,35 @@ public class ProdutoService implements Service<Produto> {
 	EntityManager manager;
 	ProdutoDAO dao;
 
-	@Override
-	public Produto cadastrar(Produto t) {
+	public ProdutoService() {
 		manager = EMFactory.getInstance().getEntityManager();
-		dao = new ProdutoDAO(manager);
-		manager.getTransaction().begin();
-		dao.adiciona(t);
-		manager.getTransaction().commit();
-		manager.close();
-		return t;
+	}
+
+	@Override
+	public Produto cadastrar(Produto produto) {
+
+		if (produtoValido(produto)) {
+			dao = new ProdutoDAO(manager);
+			manager.getTransaction().begin();
+			dao.adiciona(produto);
+			manager.getTransaction().commit();
+			manager.close();
+			return produto;
+		}
+		return null;
+
+	}
+
+	private boolean produtoValido(Produto produto) {
+
+		if (!produto.getFornecedorCollection().isEmpty() && produto.getValor() != 0 && !produto.getNome().isEmpty()) {
+			return true;
+		}
+		return false;
 	}
 
 	@Override
 	public void remove(Produto produto) {
-		manager = EMFactory.getInstance().getEntityManager();
 		dao = new ProdutoDAO(manager);
 		manager.getTransaction().begin();
 		dao.remover(produto);
@@ -40,8 +55,6 @@ public class ProdutoService implements Service<Produto> {
 
 	@Override
 	public Produto atualizar(Produto produto) {
-
-		manager = EMFactory.getInstance().getEntityManager();
 		dao = new ProdutoDAO(manager);
 		manager.getTransaction().begin();
 		dao.atualizar(produto);
@@ -52,7 +65,6 @@ public class ProdutoService implements Service<Produto> {
 
 	@Override
 	public List<Produto> listarTodos() {
-		manager = EMFactory.getInstance().getEntityManager();
 		dao = new ProdutoDAO(manager);
 		manager.getTransaction().begin();
 		List<Produto> produtosCadastradado = dao.recuperarTodos();
@@ -64,7 +76,6 @@ public class ProdutoService implements Service<Produto> {
 
 	@Override
 	public Produto recuperarPorId(long id) {
-		manager = EMFactory.getInstance().getEntityManager();
 		dao = new ProdutoDAO(manager);
 		manager.getTransaction().begin();
 		Produto produtoRecuperado = dao.recuperarPorId(id);
