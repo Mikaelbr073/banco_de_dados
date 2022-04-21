@@ -19,6 +19,7 @@ public class PedidoService implements Service<Pedido> {
 	private PedidoDAO daoPedido;
 
 	public PedidoService() {
+		manager = EMFactory.getInstance().getEntityManager();
 		daoPedido = new PedidoDAO(manager);
 	}
 
@@ -36,7 +37,6 @@ public class PedidoService implements Service<Pedido> {
 	}
 	
 	private boolean pedidoValido(Pedido pedido){
-		manager = EMFactory.getInstance().getEntityManager();
 		manager.getTransaction().begin();
 		if (pedido.getCliente().getId() != null
 				&& !pedido.getProdutos().isEmpty()) {
