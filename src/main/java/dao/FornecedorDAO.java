@@ -1,5 +1,7 @@
 package dao;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 
 import model.entity.Fornecedor;
@@ -16,8 +18,25 @@ public class FornecedorDAO {
 		dao = new GenericDAO<Fornecedor>(manager, Fornecedor.class);
 	}
 
-	public Fornecedor adiciona(Fornecedor f) {
-		return dao.adiciona(f);
+	public Fornecedor adiciona(Fornecedor fornecedor) {
+		return dao.adiciona(fornecedor);
+	}
+
+	public void removerFornecedor(Fornecedor fornecedor) {
+		dao.remove(fornecedor);
+	}
+
+	public Fornecedor atulizar(Fornecedor fornecedor) {
+		return dao.atualiza(fornecedor);
+
+	}
+
+	public Fornecedor recuperarPorId(Long id) {
+		return dao.buscaPorId(id);
+	}
+
+	public List<Fornecedor> recuperarTodos() {
+		return dao.listaTodos();
 	}
 
 	public EntityManager getEntityManager() {
