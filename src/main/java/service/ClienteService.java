@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 
 import dao.ClienteDAO;
 import dao.EMFactory;
+import dao.ProdutoDAO;
 import model.entity.Cliente;
 
 /**
@@ -18,13 +19,13 @@ public class ClienteService implements Service<Cliente> {
 	private ClienteDAO daoCliente;
 
 	public ClienteService() {
-		manager = EMFactory.getInstance().getEntityManager();
 		daoCliente = new ClienteDAO(manager);
 	}
 
 	@Override
 	public Cliente cadastrar(Cliente cliente) {
-
+		manager = EMFactory.getInstance().getEntityManager();
+		daoCliente = new ClienteDAO(manager);
 		manager.getTransaction().begin();
 		daoCliente.adiciona(cliente);
 		manager.getTransaction().commit();
@@ -34,27 +35,39 @@ public class ClienteService implements Service<Cliente> {
 	}
 
 	@Override
-	public void remove(Cliente t) {
-		// TODO Auto-generated method stub
+	public void remove(Cliente cliente) {
+		manager = EMFactory.getInstance().getEntityManager();
+		daoCliente = new ClienteDAO(manager);
+		manager.getTransaction().begin();
+		daoCliente.removeCliente(cliente);
+		manager.getTransaction().commit();
+		manager.close();
 
 	}
 
 	@Override
-	public Cliente atualizar(Cliente t) {
-		// TODO Auto-generated method stub
-		return null;
+	public Cliente atualizar(Cliente cliente) {
+		manager = EMFactory.getInstance().getEntityManager();
+		daoCliente = new ClienteDAO(manager);
+		manager.getTransaction().begin();
+		daoCliente.atualiza(cliente);
+		manager.getTransaction().commit();
+		manager.close();
+		return cliente;
 	}
 
 	@Override
 	public List<Cliente> listarTodos() {
-		// TODO Auto-generated method stub
-		return null;
+		manager = EMFactory.getInstance().getEntityManager();
+		daoCliente = new ClienteDAO(manager);
+		return daoCliente.listaTodos();
 	}
 
 	@Override
 	public Cliente recuperarPorId(long id) {
-		// TODO Auto-generated method stub
-		return null;
+		manager = EMFactory.getInstance().getEntityManager();
+		daoCliente = new ClienteDAO(manager);
+		return daoCliente.buscaPorId(id);
 	}
 
 }
