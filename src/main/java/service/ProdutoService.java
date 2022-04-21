@@ -48,7 +48,7 @@ public class ProdutoService implements Service<Produto> {
 	public void remove(Produto produto) {
 		dao = new ProdutoDAO(manager);
 		manager.getTransaction().begin();
-		dao.remover(produto);
+		dao.removeProduto(produto);
 		manager.getTransaction().commit();
 		manager.close();
 	}

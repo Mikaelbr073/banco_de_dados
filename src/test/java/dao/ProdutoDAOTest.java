@@ -68,7 +68,7 @@ public class ProdutoDAOTest {
 
 		Long idProduto = novoProduto.getId();
 
-		dao.remover(novoProduto);
+		dao.removeProduto(novoProduto);
 
 		manager.flush();
 

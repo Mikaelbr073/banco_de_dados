@@ -62,7 +62,7 @@ public class ClienteJuridicoDAOTest {
 		
 		Long idCliente = novoCliente.getId();
 		
-	    dao.remove(novoCliente);
+	    dao.removeCliente(novoCliente);
 	    
 	    manager.flush();
 	    
