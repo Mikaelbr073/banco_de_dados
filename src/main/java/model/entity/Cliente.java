@@ -48,7 +48,7 @@ public abstract class Cliente implements Serializable {
 	@CollectionTable(name = "email_cliente", foreignKey = @ForeignKey(name = "ID_CLIENTE"))
 	private Set<String> emails;
 
-	@OneToOne(mappedBy = "cliente")
+	@OneToOne(mappedBy = "cliente", cascade = CascadeType.ALL)
 	private Carteira carteira;
 
 	@ElementCollection
@@ -58,6 +58,14 @@ public abstract class Cliente implements Serializable {
 	public Cliente() {
 	}
 	
+
+	public List<Pedido> getPedidos() {
+		return pedidos;
+	}
+
+	public void setPedidos(List<Pedido> pedidos) {
+		this.pedidos = pedidos;
+	}
 
 	public Carteira getCarteira() {
 		return carteira;
@@ -109,7 +117,7 @@ public abstract class Cliente implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Cliente [id=" + id + ", nome=" + nome + "]";
+		return "Cliente [id=" + id + ", nome=" + nome + "saldo: R$"+ this.carteira.getSaldo() +"]";
 	}
 
 }
