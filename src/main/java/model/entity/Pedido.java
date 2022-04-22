@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
@@ -49,7 +50,7 @@ public class Pedido implements Serializable {
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	private Cliente cliente;
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	private PedidoProduto pedidoProduto;
 
 	@OneToMany

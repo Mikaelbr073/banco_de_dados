@@ -6,7 +6,7 @@ import javax.persistence.EntityManager;
 
 import dao.ClienteDAO;
 import dao.EMFactory;
-import dao.ProdutoDAO;
+import model.entity.Carteira;
 import model.entity.Cliente;
 
 /**
@@ -27,6 +27,8 @@ public class ClienteService implements Service<Cliente> {
 		manager = EMFactory.getInstance().getEntityManager();
 		daoCliente = new ClienteDAO(manager);
 		manager.getTransaction().begin();
+		Carteira carteira = new Carteira();
+		cliente.setCarteira(carteira);
 		daoCliente.adiciona(cliente);
 		manager.getTransaction().commit();
 		manager.close();

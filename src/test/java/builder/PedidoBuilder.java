@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import model.entity.Cliente;
 import model.entity.Endereco;
 import model.entity.Pedido;
+import model.entity.Produto;
 
 /**
  * @author Mikaelbr073
@@ -13,9 +14,9 @@ import model.entity.Pedido;
 public class PedidoBuilder {
 	
 	private Cliente cliente;
-	private double valorTotal;
 	private LocalDate data;
 	private Endereco endereco;
+	private Produto produto;
 	
 	public PedidoBuilder() {}
 	
@@ -30,11 +31,11 @@ public class PedidoBuilder {
 		return this;
 		
 	}
-	public PedidoBuilder completo(Endereco endereco, LocalDate data, Cliente cliente, double valorTotal) {
+	public PedidoBuilder completo(Endereco endereco, LocalDate data, Cliente cliente, Produto produto) {
 		this.endereco = endereco;
 		this.data = data;
 		this.cliente = cliente;
-		this.valorTotal = valorTotal;
+		this.produto = produto;
 		return this;
 		
 	}
@@ -43,8 +44,8 @@ public class PedidoBuilder {
 		Pedido pedido = new Pedido();
 		pedido.setCliente(cliente);
 		pedido.setData(data);
-		pedido.setValorTotal(valorTotal);
 		pedido.setEndereco(endereco);
+		pedido.adicionaProdutoLista(produto);
 		return pedido;
 	}
 	

@@ -29,7 +29,7 @@ public class ClienteFisicoDAOTest {
 
 	@AfterEach
 	public void after() {
-		manager.getTransaction().commit();
+		manager.getTransaction().rollback();
 		manager.close();
 	}
 
