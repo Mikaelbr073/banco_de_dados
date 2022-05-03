@@ -114,3 +114,13 @@ constraint produto_fornecedor_id_fornecedor_fk foreign key (id_fornecedor)
 	on update cascade
 	on delete cascade
 );
+
+CREATE FUNCTION inserir_pedido() RETURNS trigger LANGUAGE plpgsql AS $$
+BEGIN
+   NEW.total = 1333;
+   RETURN NEW;
+END;
+$$;
+
+CREATE TRIGGER calcula_valor_total_pedido BEFORE INSERT OR UPDATE ON pedido
+	FOR EACH ROW EXECUTE FUNCTION inserir_pedido();
