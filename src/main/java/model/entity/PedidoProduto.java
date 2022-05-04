@@ -1,12 +1,14 @@
 package model.entity;
 
 import java.io.Serializable;
+import java.util.Collection;
 
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -15,21 +17,27 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "PEDIDO_PRODUTO")
-@IdClass(PedidoProduto.class)
 public class PedidoProduto implements Serializable {
 
 	private static final long serialVersionUID = -1271951994985822730L;
 
-	@Id
-	@JoinColumn(name = "PEDIDO_ID_PRODUTO", referencedColumnName = "ID_PRODUTO", columnDefinition = "INTEGER")
-	private Long idProduto;
+	@EmbeddedId
+	private PedidoProdutoId id;
 
-	@Id
-	@JoinColumn(name = "PEDIDO_ID_CLIENTE", referencedColumnName = "ID_CLIENTE", columnDefinition = "INTEGER")
-	private Long idCliente;
+	
+	@OneToOne
+	private Pedido pedido;
 
-//	@EmbeddedId
-//	private PedidoProdutoId id;
+	@OneToMany
+	private Collection<Produto> produtos;
+
+//	
+//	@JoinColumn(name = "PEDIDO_ID_PRODUTO", referencedColumnName = "ID_PRODUTO", columnDefinition = "INTEGER")
+//	private Long idProduto;
+//
+//	
+//	@JoinColumn(name = "PEDIDO_ID_CLIENTE", referencedColumnName = "ID_CLIENTE", columnDefinition = "INTEGER")
+//	private Long idCliente;
 
 	@Column(name = "VALOR_UNIDADE", nullable = false, columnDefinition = "DOUBLE PRECISION")
 	private double valorUnidade = 0.0;
@@ -40,9 +48,28 @@ public class PedidoProduto implements Serializable {
 	public PedidoProduto() {
 	}
 
-	public PedidoProduto(double valorUnidade, int qtd) {
-		this.valorUnidade = valorUnidade;
-		this.qtd = qtd;
+	public PedidoProdutoId getId() {
+		return id;
+	}
+
+	public void setId(PedidoProdutoId id) {
+		this.id = id;
+	}
+
+	public Pedido getPedido() {
+		return pedido;
+	}
+
+	public void setPedido(Pedido pedido) {
+		this.pedido = pedido;
+	}
+
+	public Collection<Produto> getProdutos() {
+		return produtos;
+	}
+
+	public void setProdutos(Collection<Produto> produtos) {
+		this.produtos = produtos;
 	}
 
 	public double getValorUnidade() {
@@ -61,32 +88,17 @@ public class PedidoProduto implements Serializable {
 		this.qtd = qtd;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
-	public Long getIdProduto() {
-		return idProduto;
-	}
-
-	public void setIdProduto(Long idProduto) {
-		this.idProduto = idProduto;
-	}
-
-	public Long getIdCliente() {
-		return idCliente;
-	}
-
-	public void setIdCliente(Long idCliente) {
-		this.idCliente = idCliente;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((idCliente == null) ? 0 : idCliente.hashCode());
-		result = prime * result + ((idProduto == null) ? 0 : idProduto.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((pedido == null) ? 0 : pedido.hashCode());
+		result = prime * result + ((produtos == null) ? 0 : produtos.hashCode());
+		result = prime * result + qtd;
+		long temp;
+		temp = Double.doubleToLongBits(valorUnidade);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
 		return result;
 	}
 
@@ -99,18 +111,26 @@ public class PedidoProduto implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		PedidoProduto other = (PedidoProduto) obj;
-		if (idCliente == null) {
-			if (other.idCliente != null)
+		if (id == null) {
+			if (other.id != null)
 				return false;
-		} else if (!idCliente.equals(other.idCliente))
+		} else if (!id.equals(other.id))
 			return false;
-		if (idProduto == null) {
-			if (other.idProduto != null)
+		if (pedido == null) {
+			if (other.pedido != null)
 				return false;
-		} else if (!idProduto.equals(other.idProduto))
+		} else if (!pedido.equals(other.pedido))
+			return false;
+		if (produtos == null) {
+			if (other.produtos != null)
+				return false;
+		} else if (!produtos.equals(other.produtos))
+			return false;
+		if (qtd != other.qtd)
+			return false;
+		if (Double.doubleToLongBits(valorUnidade) != Double.doubleToLongBits(other.valorUnidade))
 			return false;
 		return true;
 	}
-
 
 }

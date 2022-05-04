@@ -19,57 +19,95 @@ public class ClienteService implements Service<Cliente> {
 	private ClienteDAO daoCliente;
 
 	public ClienteService() {
-		daoCliente = new ClienteDAO(manager);
+		daoCliente = new ClienteDAO(EMFactory.getInstance().getEntityManager());
 	}
 
 	@Override
 	public Cliente cadastrar(Cliente cliente) {
-		manager = EMFactory.getInstance().getEntityManager();
-		daoCliente = new ClienteDAO(manager);
-		manager.getTransaction().begin();
-		Carteira carteira = new Carteira();
-		cliente.setCarteira(carteira);
-		daoCliente.adiciona(cliente);
-		manager.getTransaction().commit();
-		manager.close();
+		try {
+			manager.getTransaction().begin();
+			Carteira carteira = new Carteira();
+			cliente.setCarteira(carteira);
+			daoCliente.adiciona(cliente);
+			manager.getTransaction().commit();
+			manager.close();
+		} catch (Exception e) {
+			if (manager.isOpen()) {
+				manager.getTransaction().rollback();
+				manager.close();
+			}
+			return null;
+		}
 		return cliente;
 
 	}
 
 	@Override
 	public void remove(Cliente cliente) {
-		manager = EMFactory.getInstance().getEntityManager();
-		daoCliente = new ClienteDAO(manager);
-		manager.getTransaction().begin();
-		daoCliente.removeCliente(cliente);
-		manager.getTransaction().commit();
-		manager.close();
+
+		try {
+			manager.getTransaction().begin();
+			daoCliente.removeCliente(cliente);
+			manager.getTransaction().commit();
+			manager.close();
+		} catch (Exception e) {
+			if (manager.isOpen()) {
+				manager.getTransaction().rollback();
+				manager.close();
+			}
+
+		}
 
 	}
 
 	@Override
 	public Cliente atualizar(Cliente cliente) {
-		manager = EMFactory.getInstance().getEntityManager();
-		daoCliente = new ClienteDAO(manager);
-		manager.getTransaction().begin();
-		daoCliente.atualiza(cliente);
-		manager.getTransaction().commit();
-		manager.close();
+		try {
+			manager.getTransaction().begin();
+			daoCliente.atualiza(cliente);
+			manager.getTransaction().commit();
+			manager.close();
+		} catch (Exception e) {
+			if (manager.isOpen()) {
+				manager.getTransaction().rollback();
+				manager.close();
+			}
+			return null;
+
+		}		
 		return cliente;
 	}
 
 	@Override
 	public List<Cliente> listarTodos() {
-		manager = EMFactory.getInstance().getEntityManager();
-		daoCliente = new ClienteDAO(manager);
-		return daoCliente.listaTodos();
+		try {
+			manager.getTransaction().begin();
+			manager.close();
+			return daoCliente.listaTodos();
+		} catch (Exception e) {
+			if (manager.isOpen()) {
+				manager.getTransaction().rollback();
+				manager.close();
+			}
+			return null;
+		}			
+		
 	}
 
 	@Override
 	public Cliente recuperarPorId(long id) {
-		manager = EMFactory.getInstance().getEntityManager();
-		daoCliente = new ClienteDAO(manager);
-		return daoCliente.buscaPorId(id);
+		try {
+			manager.getTransaction().begin();
+			manager.close();
+			return daoCliente.buscaPorId(id);
+		} catch (Exception e) {
+			if (manager.isOpen()) {
+				manager.getTransaction().rollback();
+				manager.close();
+			}
+			return null;
+		}	
+		
 	}
 
 }

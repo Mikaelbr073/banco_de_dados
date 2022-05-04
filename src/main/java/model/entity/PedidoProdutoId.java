@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.GeneratedValue;
 
 /**
  * @author Mikaelbr073
@@ -16,11 +15,10 @@ public class PedidoProdutoId implements Serializable {
 
 	private static final long serialVersionUID = 2922433230633984016L;
 
-	@GeneratedValue
+	
 	@Column(name = "ID_PRODUTO", nullable = false, columnDefinition = "INTEGER")
 	private long id_produto;
 
-	@GeneratedValue
 	@Column(name = "ID_PEDIDO", nullable = false, columnDefinition = "INTEGER")
 	private long id_pedido;
 
