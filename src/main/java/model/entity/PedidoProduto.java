@@ -26,10 +26,12 @@ public class PedidoProduto implements Serializable {
 
 	
 	@OneToOne
+	@MapsId("id_pedido")
 	private Pedido pedido;
 
-	@OneToMany
-	private Collection<Produto> produtos;
+	@OneToOne
+	@MapsId("id_produto")
+	private Produto produtos;
 
 //	
 //	@JoinColumn(name = "PEDIDO_ID_PRODUTO", referencedColumnName = "ID_PRODUTO", columnDefinition = "INTEGER")
@@ -64,11 +66,12 @@ public class PedidoProduto implements Serializable {
 		this.pedido = pedido;
 	}
 
-	public Collection<Produto> getProdutos() {
+
+	public Produto getProdutos() {
 		return produtos;
 	}
 
-	public void setProdutos(Collection<Produto> produtos) {
+	public void setProdutos(Produto produtos) {
 		this.produtos = produtos;
 	}
 
