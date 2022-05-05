@@ -127,7 +127,6 @@ public class PedidoService implements Service<Pedido> {
 	public List<Pedido> listarTodos() {
 		try {
 			manager.getTransaction().begin();
-			manager.close();
 			return daoPedido.listarTodos();
 		} catch (Exception e) {
 			if (manager.isOpen()) {
@@ -141,7 +140,6 @@ public class PedidoService implements Service<Pedido> {
 	public Pedido recuperarPorId(long id) {
 		try {
 			manager.getTransaction().begin();
-			manager.close();
 			return daoPedido.recuperarPorId(id);
 		} catch (Exception e) {
 			if (manager.isOpen()) {
