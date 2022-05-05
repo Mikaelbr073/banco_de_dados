@@ -82,7 +82,6 @@ public class ClienteService implements Service<Cliente> {
 	public List<Cliente> listarTodos() {
 		try {
 			manager.getTransaction().begin();
-			manager.close();
 			return daoCliente.listaTodos();
 		} catch (Exception e) {
 			if (manager.isOpen()) {
@@ -98,7 +97,6 @@ public class ClienteService implements Service<Cliente> {
 	public Cliente recuperarPorId(long id) {
 		try {
 			manager.getTransaction().begin();
-			manager.close();
 			return daoCliente.buscaPorId(id);
 		} catch (Exception e) {
 			if (manager.isOpen()) {
