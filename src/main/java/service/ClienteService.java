@@ -30,11 +30,9 @@ public class ClienteService implements Service<Cliente> {
 			cliente.setCarteira(carteira);
 			daoCliente.adiciona(cliente);
 			manager.getTransaction().commit();
-			manager.close();
 		} catch (Exception e) {
 			if (manager.isOpen()) {
 				manager.getTransaction().rollback();
-				manager.close();
 			}
 			return null;
 		}
@@ -49,11 +47,9 @@ public class ClienteService implements Service<Cliente> {
 			manager.getTransaction().begin();
 			daoCliente.removeCliente(cliente);
 			manager.getTransaction().commit();
-			manager.close();
 		} catch (Exception e) {
 			if (manager.isOpen()) {
 				manager.getTransaction().rollback();
-				manager.close();
 			}
 
 		}
@@ -66,11 +62,9 @@ public class ClienteService implements Service<Cliente> {
 			manager.getTransaction().begin();
 			daoCliente.atualiza(cliente);
 			manager.getTransaction().commit();
-			manager.close();
 		} catch (Exception e) {
 			if (manager.isOpen()) {
 				manager.getTransaction().rollback();
-				manager.close();
 			}
 			return null;
 
@@ -86,7 +80,6 @@ public class ClienteService implements Service<Cliente> {
 		} catch (Exception e) {
 			if (manager.isOpen()) {
 				manager.getTransaction().rollback();
-				manager.close();
 			}
 			return null;
 		}			
@@ -101,7 +94,6 @@ public class ClienteService implements Service<Cliente> {
 		} catch (Exception e) {
 			if (manager.isOpen()) {
 				manager.getTransaction().rollback();
-				manager.close();
 			}
 			return null;
 		}	
