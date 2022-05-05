@@ -16,10 +16,10 @@ public class PedidoProdutoId implements Serializable {
 	private static final long serialVersionUID = 2922433230633984016L;
 
 	
-	@Column(name = "ID_PRODUTO", nullable = false, columnDefinition = "INTEGER")
+	@Column(name = "ID_PRODUTO", nullable = false)
 	private long id_produto;
 
-	@Column(name = "ID_PEDIDO", nullable = false, columnDefinition = "INTEGER")
+	@Column(name = "ID_PEDIDO", nullable = false)
 	private long id_pedido;
 
 	public PedidoProdutoId() {
