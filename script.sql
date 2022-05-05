@@ -116,8 +116,13 @@ constraint produto_fornecedor_id_fornecedor_fk foreign key (id_fornecedor)
 );
 
 CREATE FUNCTION inserir_pedido() RETURNS trigger LANGUAGE plpgsql AS $$
+DECLARE
+    novo_pedido RECORD;
 BEGIN
-   NEW.total = 1333;
+   SELECT INTO novo_pedido * FROM pedido_produto
+					  	WHERE pedido_id_produto = NEW.id_pedido;
+						
+	NEW.valor_total = novo_pedido.quantidade * novo_pedido.valor_unidade;
    RETURN NEW;
 END;
 $$;
