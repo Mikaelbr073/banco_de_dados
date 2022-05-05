@@ -14,20 +14,19 @@ import model.entity.Produto;
  */
 public class ProdutoService implements Service<Produto> {
 
-	EntityManager manager;
-	ProdutoDAO dao;
+	EntityManager manager = EMFactory.getInstance().getEntityManager();
+	ProdutoDAO daoProduto;
 
 	public ProdutoService() {
-		dao = new ProdutoDAO(manager);
+		daoProduto = new ProdutoDAO(manager);
 	}
 
 	@Override
 	public Produto cadastrar(Produto produto) {
-		manager = EMFactory.getInstance().getEntityManager();
-		dao = new ProdutoDAO(manager);
+
 		if (produtoValido(produto)) {
 			manager.getTransaction().begin();
-			dao.adiciona(produto);
+			daoProduto.adiciona(produto);
 			manager.getTransaction().commit();
 			manager.close();
 			return produto;
@@ -48,43 +47,74 @@ public class ProdutoService implements Service<Produto> {
 
 	@Override
 	public void remove(Produto produto) {
-		manager = EMFactory.getInstance().getEntityManager();
-		dao = new ProdutoDAO(manager);
-		manager.getTransaction().begin();
-		dao.removeProduto(produto);
-		manager.getTransaction().commit();
-		manager.close();
+		try {
+			manager.getTransaction().begin();
+			daoProduto.removeProduto(produto);
+			manager.getTransaction().commit();
+		} catch (Exception e) {
+			manager.getTransaction().rollback();
+			if (manager.isOpen()) {
+				manager.getTransaction().rollback();
+				manager.close();
+			}
+		}
+
 	}
 
 	@Override
 	public Produto atualizar(Produto produto) {
-		manager = EMFactory.getInstance().getEntityManager();
-		dao = new ProdutoDAO(manager);
-		manager.getTransaction().begin();
-		dao.atualizar(produto);
-		manager.getTransaction().commit();
-		manager.close();
-		return produto;
+		try {
+			manager.getTransaction().begin();
+			daoProduto.atualizar(produto);
+			manager.getTransaction().commit();
+			manager.close();
+			return produto;
+		} catch (Exception e) {
+			manager.getTransaction().rollback();
+			if (manager.isOpen()) {
+				manager.getTransaction().rollback();
+				manager.close();
+			}
+		}
+
+		return null;
+
 	}
 
 	@Override
 	public List<Produto> listarTodos() {
-		manager = EMFactory.getInstance().getEntityManager();
-		dao = new ProdutoDAO(manager);
-		manager.getTransaction().begin();
-		List<Produto> produtosCadastradado = dao.recuperarTodos();
-		manager.getTransaction().commit();
-		manager.close();
-		return produtosCadastradado;
+
+		try {
+			manager.getTransaction().begin();
+			return daoProduto.recuperarTodos();
+		} catch (Exception e) {
+			manager.getTransaction().rollback();
+			if (manager.isOpen()) {
+				manager.getTransaction().rollback();
+				manager.close();
+			}
+		}
+
+		return null;
 
 	}
 
 	@Override
 	public Produto recuperarPorId(long id) {
-		manager = EMFactory.getInstance().getEntityManager();
-		dao = new ProdutoDAO(manager);
-		Produto produtoRecuperado = dao.recuperarPorId(id);
-		return produtoRecuperado;
+
+		try {
+			manager.getTransaction().begin();
+			return daoProduto.recuperarPorId(id);
+		} catch (Exception e) {
+			manager.getTransaction().rollback();
+			if (manager.isOpen()) {
+				manager.getTransaction().rollback();
+				manager.close();
+			}
+		}
+
+		return null;
+
 	}
 
 }
