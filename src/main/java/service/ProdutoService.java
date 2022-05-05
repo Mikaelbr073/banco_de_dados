@@ -14,11 +14,12 @@ import model.entity.Produto;
  */
 public class ProdutoService implements Service<Produto> {
 
-	EntityManager manager = EMFactory.getInstance().getEntityManager();
+	EntityManager manager;
 	ProdutoDAO daoProduto;
 
 	public ProdutoService() {
-		daoProduto = new ProdutoDAO(manager);
+		this.manager = EMFactory.getInstance().getEntityManager();
+		this.daoProduto = new ProdutoDAO(manager);
 	}
 
 	@Override
@@ -28,11 +29,9 @@ public class ProdutoService implements Service<Produto> {
 			manager.getTransaction().begin();
 			daoProduto.adiciona(produto);
 			manager.getTransaction().commit();
-			manager.close();
 			return produto;
 		}
 		manager.getTransaction().rollback();
-		manager.close();
 		return null;
 
 	}
@@ -55,7 +54,6 @@ public class ProdutoService implements Service<Produto> {
 			manager.getTransaction().rollback();
 			if (manager.isOpen()) {
 				manager.getTransaction().rollback();
-				manager.close();
 			}
 		}
 
@@ -67,13 +65,11 @@ public class ProdutoService implements Service<Produto> {
 			manager.getTransaction().begin();
 			daoProduto.atualizar(produto);
 			manager.getTransaction().commit();
-			manager.close();
 			return produto;
 		} catch (Exception e) {
 			manager.getTransaction().rollback();
 			if (manager.isOpen()) {
 				manager.getTransaction().rollback();
-				manager.close();
 			}
 		}
 
@@ -91,7 +87,6 @@ public class ProdutoService implements Service<Produto> {
 			manager.getTransaction().rollback();
 			if (manager.isOpen()) {
 				manager.getTransaction().rollback();
-				manager.close();
 			}
 		}
 
@@ -109,7 +104,6 @@ public class ProdutoService implements Service<Produto> {
 			manager.getTransaction().rollback();
 			if (manager.isOpen()) {
 				manager.getTransaction().rollback();
-				manager.close();
 			}
 		}
 

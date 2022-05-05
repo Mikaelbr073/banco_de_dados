@@ -30,7 +30,6 @@ public class PedidoService implements Service<Pedido> {
 			if (pedidoValido(pedido)) {
 				daoPedido.adiciona(pedido);
 				manager.getTransaction().commit();
-				manager.close();
 				return pedido;
 			}
 			manager.getTransaction().rollback();
@@ -38,7 +37,6 @@ public class PedidoService implements Service<Pedido> {
 		} catch (Exception e) {
 			if (manager.isOpen()) {
 				manager.getTransaction().rollback();
-				manager.close();
 			}
 			return null;
 		}
@@ -97,11 +95,9 @@ public class PedidoService implements Service<Pedido> {
 			manager.getTransaction().begin();
 			daoPedido.remover(pedido);
 			manager.getTransaction().commit();
-			manager.close();
 		} catch (Exception e) {
 			if (manager.isOpen()) {
 				manager.getTransaction().rollback();
-				manager.close();
 			}
 		}
 	}
@@ -112,12 +108,10 @@ public class PedidoService implements Service<Pedido> {
 			manager.getTransaction().begin();
 			daoPedido.atulizar(pedido);
 			manager.getTransaction().commit();
-			manager.close();
 			return pedido;
 		} catch (Exception e) {
 			if (manager.isOpen()) {
 				manager.getTransaction().rollback();
-				manager.close();
 			}
 		}
 		return null;
@@ -129,9 +123,7 @@ public class PedidoService implements Service<Pedido> {
 			manager.getTransaction().begin();
 			return daoPedido.listarTodos();
 		} catch (Exception e) {
-			if (manager.isOpen()) {
-				manager.close();
-			}
+			
 		}
 		return null;
 	}
@@ -140,11 +132,11 @@ public class PedidoService implements Service<Pedido> {
 	public Pedido recuperarPorId(long id) {
 		try {
 			manager.getTransaction().begin();
+			manager.close();
 			return daoPedido.recuperarPorId(id);
 		} catch (Exception e) {
 			if (manager.isOpen()) {
 				manager.getTransaction().rollback();
-				manager.close();
 			}
 		}
 		return null;
