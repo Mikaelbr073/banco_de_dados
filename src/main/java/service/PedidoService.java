@@ -15,7 +15,7 @@ import model.entity.Pedido;
  */
 public class PedidoService implements Service<Pedido> {
 
-	private EntityManager manager;
+	private EntityManager manager = EMFactory.getInstance().getEntityManager();
 	private PedidoDAO daoPedido;
 
 	public PedidoService() {
@@ -24,17 +24,25 @@ public class PedidoService implements Service<Pedido> {
 
 	@Override
 	public Pedido cadastrar(Pedido pedido) {
-		manager = EMFactory.getInstance().getEntityManager();
-		daoPedido = new PedidoDAO(manager);
-		manager.getTransaction().begin();
-		if (pedidoValido(pedido)) {
-			daoPedido.adiciona(pedido);
-			manager.getTransaction().commit();
+
+		try {
+			manager.getTransaction().begin();
+			if (pedidoValido(pedido)) {
+				daoPedido.adiciona(pedido);
+				manager.getTransaction().commit();
+				manager.close();
+				return pedido;
+			}
+			manager.getTransaction().rollback();
 			manager.close();
-			return pedido;
+		} catch (Exception e) {
+			if (manager.isOpen()) {
+				manager.getTransaction().rollback();
+				manager.close();
+			}
+			return null;
 		}
-		manager.getTransaction().rollback();
-		manager.close();
+
 		return null;
 	}
 
@@ -84,27 +92,63 @@ public class PedidoService implements Service<Pedido> {
 	}
 
 	@Override
-	public void remove(Pedido t) {
-		// TODO Auto-generated method stub
-
+	public void remove(Pedido pedido) {
+		try {
+			manager.getTransaction().begin();
+			daoPedido.remover(pedido);
+			manager.getTransaction().commit();
+			manager.close();
+		} catch (Exception e) {
+			if (manager.isOpen()) {
+				manager.getTransaction().rollback();
+				manager.close();
+			}
+		}
 	}
 
 	@Override
-	public Pedido atualizar(Pedido t) {
-		// TODO Auto-generated method stub
+	public Pedido atualizar(Pedido pedido) {
+		try {
+			manager.getTransaction().begin();
+			daoPedido.atulizar(pedido);
+			manager.getTransaction().commit();
+			manager.close();
+			return pedido;
+		} catch (Exception e) {
+			if (manager.isOpen()) {
+				manager.getTransaction().rollback();
+				manager.close();
+			}
+		}
 		return null;
 	}
 
 	@Override
 	public List<Pedido> listarTodos() {
-		// TODO Auto-generated method stub
+		try {
+			manager.getTransaction().begin();
+			manager.close();
+			return daoPedido.listarTodos();
+		} catch (Exception e) {
+			if (manager.isOpen()) {
+				manager.close();
+			}
+		}
 		return null;
 	}
 
 	@Override
 	public Pedido recuperarPorId(long id) {
-		// TODO Auto-generated method stub
+		try {
+			manager.getTransaction().begin();
+			manager.close();
+			return daoPedido.recuperarPorId(id);
+		} catch (Exception e) {
+			if (manager.isOpen()) {
+				manager.getTransaction().rollback();
+				manager.close();
+			}
+		}
 		return null;
 	}
-
 }
