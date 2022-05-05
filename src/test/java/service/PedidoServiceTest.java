@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import builder.ClienteFisicoBuilder;
 import builder.PedidoBuilder;
 import builder.ProdutoBuilder;
+import model.entity.Carteira;
 import model.entity.Cliente;
 import model.entity.Endereco;
 import model.entity.Fornecedor;
@@ -40,17 +41,21 @@ class PedidoServiceTest {
 
 		serviceCliente = new ClienteService();
 		clienteTest = ClienteFisicoBuilder.umCliente().comNome("Yudi").build();
+		Carteira carteira = new Carteira();
+		carteira.setSaldo(1000.00);
+		clienteTest.setCarteira(carteira);
 		serviceCliente.cadastrar(clienteTest);
+		System.out.println(clienteTest.toString());
 		idProduto = produtoTest.getId();
 		idCliente = clienteTest.getId();
-		System.out.println(clienteTest.toString());
+		
 	}
 
-	@AfterEach
-	public void after() {
-		serviceCliente.remove(serviceCliente.recuperarPorId(idCliente));
-		serviceProduto.remove(serviceProduto.recuperarPorId(idProduto));
-	}
+//	@AfterEach
+//	public void after() {
+//		serviceCliente.remove(serviceCliente.recuperarPorId(idCliente));
+//		serviceProduto.remove(serviceProduto.recuperarPorId(idProduto));
+//	}
 
 	@Test
 	void naoDeveSalvarPedidoSemSaldoNaCarteira() {
@@ -63,6 +68,25 @@ class PedidoServiceTest {
 		endereco.setEndCidade("Capoieras");
 		endereco.setEndRua("Av.Cabral");
 		pedido = PedidoBuilder.umPedido().completo(endereco, data, clienteTest, produtoTest).build();
+		PedidoProduto pedidoProduto = new PedidoProduto();
+		pedidoProduto.setQtd(1);
+		pedidoProduto.setValorUnidade(produtoTest.getValor());
+		pedido.setPedidoProduto(pedidoProduto);
+		assertNull(servicePedido.cadastrar(pedido));
+	}
+	
+	@Test
+	void deveSalvarPedido() {
+		System.out.println(clienteTest.toString());
+		PedidoService servicePedido = new PedidoService();
+		Pedido pedido = new Pedido();
+		LocalDate data = LocalDate.now();
+		Endereco endereco = new Endereco();
+		endereco.setEndCep("555555");
+		endereco.setEndCidade("Capoieras");
+		endereco.setEndRua("Av.Cabral");
+		pedido = PedidoBuilder.umPedido().completo(endereco, data, clienteTest, produtoTest).build();		
+		pedido.setCliente(clienteTest);
 		PedidoProduto pedidoProduto = new PedidoProduto();
 		pedidoProduto.setQtd(1);
 		pedidoProduto.setValorUnidade(produtoTest.getValor());

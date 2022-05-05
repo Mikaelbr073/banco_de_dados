@@ -15,10 +15,11 @@ import model.entity.Cliente;
  */
 public class ClienteService implements Service<Cliente> {
 
-	private EntityManager manager = EMFactory.getInstance().getEntityManager();
+	private EntityManager manager;
 	private ClienteDAO daoCliente;
 
 	public ClienteService() {
+		this.manager = EMFactory.getInstance().getEntityManager();
 		daoCliente = new ClienteDAO(manager);
 	}
 

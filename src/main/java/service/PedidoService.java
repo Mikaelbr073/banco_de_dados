@@ -15,10 +15,11 @@ import model.entity.Pedido;
  */
 public class PedidoService implements Service<Pedido> {
 
-	private EntityManager manager = EMFactory.getInstance().getEntityManager();
+	private EntityManager manager;
 	private PedidoDAO daoPedido;
 
 	public PedidoService() {
+		this.manager = EMFactory.getInstance().getEntityManager();
 		daoPedido = new PedidoDAO(manager);
 	}
 
